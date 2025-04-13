@@ -114,7 +114,7 @@ export default function EntryList() {
       onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
         useNativeDriver: true,
       })}
-      scrollEventThrottle={50}
+      scrollEventThrottle={16}
       showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Animated.View
