@@ -125,7 +125,7 @@ export default function EntryList() {
                 {
                   translateY: scrollY.interpolate({
                     inputRange: [0, 50],
-                    outputRange: [0, -100],
+                    outputRange: [0, 100],
                     extrapolate: 'clamp',
                   }),
                 },
@@ -142,7 +142,30 @@ export default function EntryList() {
             {persons.reduce((sum, item) => sum + item.total_quantity, 0)} kg
           </Text>
         </Animated.View>
-
+        <Animated.View
+          style={[
+            {backgroundColor: 'white'},
+            {
+              transform: [
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [0, 50],
+                    outputRange: [0, -120],
+                    extrapolate: 'clamp',
+                  }),
+                },
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [0, 0],
+                    outputRange: [0, 0],
+                    extrapolate: 'identity',
+                  }),
+                },
+                
+              ],
+              zIndex: 100,
+            },
+          ]}>
         <View style={styles.searchContainer}>
           <Ionicons
             name="menu"
@@ -165,6 +188,7 @@ export default function EntryList() {
             />
           )}
         </View>
+        </Animated.View>
 
         {loading && <ActivityIndicator size="large" color="#0000ff" />}
 
@@ -242,6 +266,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 30,
     marginBottom: 15,
+    marginTop: 15,
   },
   menuIcon: {marginRight: 10},
   searchInput: {flex: 1, fontSize: 16, color: '#333'},

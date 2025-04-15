@@ -131,7 +131,7 @@ export default function AddEntryScreen({ navigation }: Props) {
           <ActivityIndicator size="large" color="#fff" />
         </View>
       )}
-      <Text style={styles.header}>Add New Entry</Text>
+      {/* <Text style={styles.header}>Add New Entry</Text> */}
 
       {/* Date Picker */}
       <TouchableOpacity

@@ -94,7 +94,7 @@ const Recorder = ({ setPersonObj, setLoading }: RecorderProps) => {
         onPress={recording ? stopRecording : () => setIsRecOpen(true)}
         style={[
           styles.micButton,
-          { backgroundColor: recording ? "#D32F2F" : "#6200EE" },
+          { backgroundColor: recording ? "#D32F2F" : "#158B80" },
         ]}
       >
         <MaterialIcons name="keyboard-voice" size={30} color="#fff" />
