@@ -15,6 +15,7 @@ import SignupScreen from './screens/SignUpScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from './screens/ProfileScreen';
 import BootSplash from 'react-native-bootsplash';
+import {ThemeProvider} from './contexts/theme/ThemeContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -27,7 +28,7 @@ const TabNavigator = () => (
       headerStyle: {
         // backgroundColor: '#6200EE',
       },
-      tabBarActiveTintColor: '#6200EE',
+      tabBarActiveTintColor: '#03045e',
       // tabBarStyle: {
       //   height: 60,
 
@@ -41,9 +42,10 @@ const TabNavigator = () => (
       //   // justifyContent: 'flex-start',
       //   // paddingBottom: 40,
       // },
-      // tabBarLabelStyle: {
-      //   display: route.name === 'Add Entry' ? 'none' : 'none',
-      // },
+      tabBarLabelStyle: {
+        fontFamily: 'Montserrat-Medium',
+        // display: route.name === 'Add Entry' ? 'none' : 'none',
+      },
       // tabBarIconStyle: {
       //   height: 50,
       //   width: 50,
@@ -73,7 +75,7 @@ const TabNavigator = () => (
           <Ionicons
             name={iconName}
             size={iconSize}
-            color={focused ? '#6200EE' : color}
+            color={focused ? '#03045e' : color}
           />
         );
       },
@@ -113,6 +115,7 @@ const AppNavigator = () => {
                 options={{headerShown: false}}
               />
               <Stack.Screen name="Detail" component={EntryDetails} />
+              <Stack.Screen name="AddEntry" component={AddEntryScreen} />
             </>
           ) : (
             <>
@@ -139,7 +142,9 @@ const AppNavigator = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <AppNavigator />
+      <ThemeProvider>
+        <AppNavigator />
+      </ThemeProvider>
     </AuthProvider>
   );
 }

@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { tokenType } from '../types/navigation';
-// import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 type AuthContextType = {
   user: FirebaseAuthTypes.User | null;
@@ -10,6 +11,7 @@ type AuthContextType = {
   getToken: () => Promise<string | null>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  handleSignUp: (username: string, email: string, password: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,21 +36,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return unsubscribe;
   }, []);
 
-  // const handleSignUp = async (username: string, email: string, password: string) => {
-  //   try {
-  //     const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-  //     await userCredential.user.updateProfile({ displayName: username });
-  //     await firestore().collection('users').doc(userCredential.user.uid).set({
-  //       uid: userCredential.user.uid,
-  //       username,
-  //       email,
-  //       createdAt: firestore.FieldValue.serverTimestamp(),
-  //     });
+  const handleSignUp = async (username: string, email: string, password: string) => {
+    try {
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      await userCredential.user.updateProfile({ displayName: username });
+      await firestore().collection('users').doc(userCredential.user.uid).set({
+        uid: userCredential.user.uid,
+        username,
+        email,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+      Toast.show({
+        type: 'success',
+        text1: 'Account created successfully!',
+        text2: 'You can create a new entry now.',
+      })
 
-  //   } catch (error: any) {
-  //     // Alert.alert('Signup Error', error.message);
-  //   }
-  // };
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Signup Error',
+        text2: error.message,
+      });
+      // Alert.alert('Signup Error', error.message);
+    }
+  };
+
+  const registerUser = async (email: string, password: string, username: string) => {
+    try {
+      // Create user with email & password
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      const { uid } = userCredential.user;
+  
+      // Save additional user info in Firestore
+      await firestore().collection('users').doc(uid).set({
+        email,
+        username,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+  
+      console.log('User registered and data saved!');
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
+  };
+  
 
   const login = async (email: string, password: string) => {
     const res = await auth().signInWithEmailAndPassword(email, password);
@@ -73,7 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, getToken, token }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, getToken, token, handleSignUp }}>
       {children}
     </AuthContext.Provider>
   );

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { NavigationProps } from '../types/navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useAuth } from '../contexts/AuthProvider';
 
 type Props = NavigationProps<'Login'>;
 
@@ -24,6 +25,8 @@ export default function SignupScreen({ navigation }: Props) {
   const [emailError, setEmailError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const { handleSignUp } = useAuth()
 
   const validate = () => {
     let valid = true;
@@ -58,18 +61,17 @@ export default function SignupScreen({ navigation }: Props) {
     return valid;
   };
 
-  const handleSignup = async () => {
+  const handleSignupCall = async () => {
     if (!validate()) return;
-
     setLoading(true);
     try {
       // TODO: Call your backend/Firebase logic
-      navigation.replace('Home');
+     await handleSignUp(username, email, password);
+      setLoading(false);
+      // navigation.replace('Home');
     } catch (error: any) {
       // You could show server error here too
       console.log(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -124,7 +126,7 @@ export default function SignupScreen({ navigation }: Props) {
 
       <TouchableOpacity
         style={styles.signupBtn}
-        onPress={handleSignup}
+        onPress={handleSignupCall}
         disabled={loading}>
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.signupText}>Sign Up</Text>}
       </TouchableOpacity>
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   signupBtn: {
-    backgroundColor: '#6200EE',
+    backgroundColor: '#03045e',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   loginLink: {
-    color: '#6200EE',
+    color: '#03045e',
     fontWeight: 'bold',
   },
 });

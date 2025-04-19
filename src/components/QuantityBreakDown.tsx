@@ -1,6 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTheme} from '../contexts/theme/ThemeContext';
 
 type QuantityBreakdownProps = {
   quantities: number[];
@@ -13,15 +14,35 @@ const QuantityBreakdown: React.FC<QuantityBreakdownProps> = ({
 }) => {
   const total = quantities.reduce((sum, q) => sum + q, 0);
 
+  const theme = useTheme();
+  const styles = getStyles(theme);
+
   return (
     <View style={styles.container}>
       <View style={styles.totalContainer}>
         <View style={styles.iconContainer}>
-          <Ionicons name="calendar-outline" size={20} color="#6200EE" />
-          <Text style={styles.totalText}>{selected_date}</Text>
+          <Ionicons
+            name="calendar-outline"
+            size={20}
+            color={theme.colors.primary}
+          />
+          <Text
+            style={[
+              styles.totalText,
+              {
+                color: theme.colors.text.medium,
+                fontFamily: theme.fonts.regular,
+              },
+            ]}>
+            {selected_date}
+          </Text>
         </View>
         <View style={styles.iconContainer}>
-          <Ionicons name="calculator-outline" size={20} color="#6200EE" />
+          <Ionicons
+            name="calculator-outline"
+            size={20}
+            color={theme.colors.primary}
+          />
           <Text style={styles.totalText}>Total: {total}</Text>
         </View>
       </View>
@@ -36,7 +57,7 @@ const QuantityBreakdown: React.FC<QuantityBreakdownProps> = ({
                 <Ionicons
                   name="add"
                   size={18}
-                  color="#6200EE"
+                  color={theme.colors.primary}
                   style={styles.plusIcon}
                 />
               )}
@@ -50,46 +71,48 @@ const QuantityBreakdown: React.FC<QuantityBreakdownProps> = ({
 
 export default QuantityBreakdown;
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexGrow: 1,
-    gap: 15,
-  },
-  quantitiesRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "nowrap",
-  },
-  qtyChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#EDE7F6",
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-  },
-  qtyText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#6200EE",
-  },
-  plusIcon: {
-    margin: 2,
-  },
-  totalContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  totalText: {
-    fontSize: 16,
-    marginLeft: 8,
-    color: "#333",
-    fontWeight: "bold",
-  },
-});
+const getStyles = (theme: ReturnType<typeof useTheme>) =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      flexGrow: 1,
+      gap: 15,
+    },
+    quantitiesRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'nowrap',
+    },
+    qtyChip: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: theme.colors.tertiary,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      borderRadius: 20,
+    },
+    qtyText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: theme.colors.primary,
+      fontFamily: theme.fonts.semiBold,
+    },
+    plusIcon: {
+      margin: 2,
+    },
+    totalContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    iconContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    totalText: {
+      fontSize: 16,
+      marginLeft: 8,
+      color: theme.colors.primary,
+      fontFamily: theme.fonts.bold,
+    },
+  });

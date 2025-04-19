@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   loginBtn: {
-    backgroundColor: '#6200EE',
+    backgroundColor: '#03045e',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   signupLink: {
-    color: '#6200EE',
+    color: '#03045e',
     fontWeight: 'bold',
   },
   orText: {
@@ -283,6 +283,27 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+
+// when you run into issues with react native, try the following commands:
+// when u reinstall the node_modules, make sure to delete the following folders:
+
+// rm -rf android/.gradle
+// rm -rf android/app/.cxx
+// rm -rf android/app/build
+// rm -rf node_modules
+// rm -rf android/build
+// rm -rf android/app/build/generated
+// rm -rf package-lock.json yarn.lock
+
+// npm install
+
+// npx react-native start --reset-cache
+
+// cd android
+// ./gradlew clean
+// cd ..
+// npx react-native run-android
+
 
 // import React, {useState} from 'react';
 // import {View, TextInput, Button, StyleSheet, Alert} from 'react-native';

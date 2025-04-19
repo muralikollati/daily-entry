@@ -2,6 +2,7 @@ import { PermissionsAndroid, Platform, Permission } from 'react-native';
 
 export const formatDate = (isoString: string) => {
   const date = new Date(isoString);
+  console.log('Formatted date:', date);
 
   const formattedDate = date.toLocaleDateString("en-IN", {
     day: "2-digit",
